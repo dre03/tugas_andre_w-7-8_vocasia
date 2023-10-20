@@ -1,11 +1,11 @@
 const db = require("../../db/config");
 
-const menuModel = {};
+const categorieModel = {};
 
-// Menampilkan semua data
-menuModel.getAll = () => {
+// Menampilkan Semua Data
+categorieModel.getAll = () => {
   return new Promise((resolve, reject) => {
-    db.all("SELECT * FROM menu", (err, rows) => {
+    db.all(`SELECT * FROM categories`, (err, rows) => {
       if (err) {
         reject(err);
       } else {
@@ -15,10 +15,10 @@ menuModel.getAll = () => {
   });
 };
 
-//Menampilkan satu data berdasarakan id
-menuModel.getById = (id) => {
+//Menampilkan satu data berdasarkan id
+categorieModel.getById = (id) => {
   return new Promise((resolve, reject) => {
-    db.get(`SELECT * FROM menu WHERE id = ?`, [id], (err, rows) => {
+    db.get(`SELECT * FROM categories WHERE id = ?`, [id], (err, rows) => {
       if (err) {
         reject(err);
       } else {
@@ -29,11 +29,11 @@ menuModel.getById = (id) => {
 };
 
 // Create
-menuModel.create = (data) => {
+categorieModel.create = (data) => {
   return new Promise((resolve, reject) => {
     db.run(
-      `INSERT INTO menu (item,price) VALUES (?, ?)`,
-      [data.item, data.price],
+      `INSERT INTO categories (name) VALUES (?)`,
+      [data.name],
       function (err) {
         if (err) {
           reject(err);
@@ -46,11 +46,11 @@ menuModel.create = (data) => {
 };
 
 // Update
-menuModel.update = (id, data) => {
+categorieModel.update = (id, data) => {
   return new Promise((resolve, reject) => {
     db.run(
-      `UPDATE menu SET item = ?, price = ? WHERE id = ?`,
-      [data.item, data.price, id],
+      `UPDATE categories SET name = ? WHERE id = ?`,
+      [data.name, id],
       function (err) {
         if (err) {
           reject(err);
@@ -63,9 +63,9 @@ menuModel.update = (id, data) => {
 };
 
 // Delete
-menuModel.delete = (id) => {
+categorieModel.delete = (id) => {
   return new Promise((resolve, reject) => {
-    db.run("DELETE FROM menu WHERE id = ?", [id], function (err) {
+    db.run(`DELETE FROM categories WHERE id = ?`, [id], function (err) {
       if (err) {
         reject(err);
       } else {
@@ -75,4 +75,4 @@ menuModel.delete = (id) => {
   });
 };
 
-module.exports = menuModel;
+module.exports = categorieModel;

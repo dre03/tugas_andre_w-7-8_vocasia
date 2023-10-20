@@ -1,11 +1,11 @@
 const db = require("../../db/config");
 
-const menuModel = {};
+const customerModel = {};
 
-// Menampilkan semua data
-menuModel.getAll = () => {
+// Menampilkan Semua Data
+customerModel.getAll = () => {
   return new Promise((resolve, reject) => {
-    db.all("SELECT * FROM menu", (err, rows) => {
+    db.all(`SELECT * FROM customer`, (err, rows) => {
       if (err) {
         reject(err);
       } else {
@@ -15,10 +15,10 @@ menuModel.getAll = () => {
   });
 };
 
-//Menampilkan satu data berdasarakan id
-menuModel.getById = (id) => {
+// Menampilkan satu data berdasarakan id
+customerModel.getById = (customerId) => {
   return new Promise((resolve, reject) => {
-    db.get(`SELECT * FROM menu WHERE id = ?`, [id], (err, rows) => {
+    db.get(`SELECT * FROM customer WHERE id = ?`, [customerId], (err, rows) => {
       if (err) {
         reject(err);
       } else {
@@ -29,11 +29,11 @@ menuModel.getById = (id) => {
 };
 
 // Create
-menuModel.create = (data) => {
+customerModel.create = (data) => {
   return new Promise((resolve, reject) => {
     db.run(
-      `INSERT INTO menu (item,price) VALUES (?, ?)`,
-      [data.item, data.price],
+      `INSERT INTO customer (name, address, email) VALUES (?, ?, ?)`,
+      [data.name, data.address, data.email],
       function (err) {
         if (err) {
           reject(err);
@@ -46,11 +46,11 @@ menuModel.create = (data) => {
 };
 
 // Update
-menuModel.update = (id, data) => {
+customerModel.update = (id, data) => {
   return new Promise((resolve, reject) => {
     db.run(
-      `UPDATE menu SET item = ?, price = ? WHERE id = ?`,
-      [data.item, data.price, id],
+      `UPDATE customer SET name = ?, address = ?, email = ? WHERE id = ?`,
+      [data.name, data.address, data.email, id],
       function (err) {
         if (err) {
           reject(err);
@@ -63,9 +63,9 @@ menuModel.update = (id, data) => {
 };
 
 // Delete
-menuModel.delete = (id) => {
+customerModel.delete = (id) => {
   return new Promise((resolve, reject) => {
-    db.run("DELETE FROM menu WHERE id = ?", [id], function (err) {
+    db.run(`DELETE FROM customer WHERE id = ?`, [id], function (err) {
       if (err) {
         reject(err);
       } else {
@@ -75,4 +75,4 @@ menuModel.delete = (id) => {
   });
 };
 
-module.exports = menuModel;
+module.exports = customerModel;
